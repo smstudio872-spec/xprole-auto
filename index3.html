@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPROLE Automotive Group | المنصة الرسمية للسيارات الفاخرة</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo & Orbitron -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        xblack: '#04060a',
+                        xdark: '#0a0e17',
+                        xcard: '#121826',
+                        xborder: 'rgba(255, 255, 255, 0.08)',
+                        xcyan: '#00f0ff',
+                        xblue: '#0066ff',
+                        xpurple: '#7b2cbf',
+                        xgold: '#d4af37',
+                        xrose: '#e63946'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif']
+                    },
+                    boxShadow: {
+                        glow: '0 0 30px rgba(0, 240, 255, 0.3)',
+                        glowGold: '0 0 30px rgba(212, 175, 55, 0.3)',
+                        glowPurple: '0 0 30px rgba(123, 44, 191, 0.35)',
+                        cardGlow: '0 15px 35px -10px rgba(0, 240, 255, 0.12)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #04060a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .font-tech {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #04060a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #121826;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
+        }
+
+        /* Glassmorphism & Metallic Finishes */
+        .glass {
+            background: rgba(10, 14, 23, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(18, 24, 38, 0.7) 0%, rgba(10, 14, 23, 0.9) 100%);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .gold-border {
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        /* Ambient Lighting Effects */
+        .ambient-bg {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(160px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.22;
+        }
+
+        .car-transition {
+            transition: filter 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes customPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.08); }
+        }
+        .animate-ambient {
+            animation: customPulse 9s infinite ease-in-out;
+        }
+
+        /* Active Navigation Indicator */
+        .nav-link.active {
+            color: #00f0ff;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-xcyan selection:text-black">
+
+    <!-- Ambient Lighting Effects -->
+    <div class="ambient-bg bg-xcyan top-0 right-0 animate-ambient"></div>
+    <div class="ambient-bg bg-xpurple top-1/3 left-0 animate-ambient" style="animation-delay: 3s;"></div>
+    <div class="ambient-bg bg-xgold bottom-10 right-1/4 animate-ambient" style="animation-delay: 6s;"></div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="fixed top-24 left-6 z-50 transform -translate-x-full opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="glass border-l-4 border-xcyan text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4">
+            <i id="toast-icon" class="fa-solid fa-shield-halved text-xcyan text-2xl"></i>
+            <div>
+                <h4 id="toast-title" class="font-bold text-sm">XPROLE System Notification</h4>
+                <p id="toast-msg" class="text-xs text-gray-300">تم تحديث الإعدادات بنجاح</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. NAVIGATION BAR -->
+    <header class="fixed top-0 left-0 w-full z-40 glass border-b border-xborder transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-xcyan via-xblue to-xpurple flex items-center justify-center font-black text-black text-2xl font-tech shadow-glow group-hover:scale-105 transition-transform">
+                    X
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-widest text-white group-hover:text-xcyan transition-colors font-tech">
+                        XPROLE<span class="text-xcyan">.</span>
+                    </span>
+                    <span class="text-[9px] tracking-widest text-gray-400 font-semibold uppercase -mt-1">Automotive Group</span>
+                </div>
+            </a>
+
+            <!-- Global Search & Series Selector -->
+            <div class="hidden lg:flex flex-1 max-w-lg mx-6 relative">
+                <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="ابحث في السلاسل، التسارع، الفئات..." class="w-full bg-xdark/90 border border-xborder rounded-full py-2.5 px-12 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-xcyan focus:ring-1 focus:ring-xcyan transition-all">
+                <i class="fa-solid fa-magnifying-glass absolute right-4 top-3.5 text-gray-400 text-sm"></i>
+                <div class="absolute left-3 top-2.5 flex gap-1">
+                    <span class="text-[10px] bg-xcard px-2 py-0.5 rounded-full text-gray-400 font-tech">Series X</span>
+                    <span class="text-[10px] bg-xcard px-2 py-0.5 rounded-full text-gray-400 font-tech">Series S</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-7 font-medium text-sm text-gray-300">
+                <a href="#hero" class="nav-link hover:text-xcyan transition-colors">الرئيسية</a>
+                <a href="#lineup" class="nav-link hover:text-xcyan transition-colors">السلاسل والموديلات</a>
+                <a href="#configurator" class="nav-link hover:text-xcyan transition-colors">مُستكشف 3D</a>
+                <a href="#compare" class="nav-link hover:text-xcyan transition-colors">المقارنة</a>
+                <a href="#finance" class="nav-link hover:text-xcyan transition-colors">مركز التمويل</a>
+                <a href="#smart-os" class="nav-link hover:text-xcyan transition-colors">XPROLE OS</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <button onclick="openCompareModal()" class="relative p-2.5 rounded-xl glass-card text-gray-300 hover:text-xcyan hover:border-xcyan/40 transition-all" title="مقارنة الموديلات">
+                    <i class="fa-solid fa-code-compare text-lg"></i>
+                    <span id="compare-badge" class="hidden absolute -top-1.5 -right-1.5 bg-xcyan text-black text-[10px] font-bold w-4 h-4 rounded-full items-center justify-center">!</span>
+                </button>
+
+                <button onclick="toggleFavDrawer()" class="relative p-2.5 rounded-xl glass-card text-gray-300 hover:text-xpurple hover:border-xpurple/40 transition-all">
+                    <i class="fa-solid fa-heart text-lg"></i>
+                    <span id="fav-count" class="absolute -top-1.5 -right-1.5 bg-xpurple text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-xblack">0</span>
+                </button>
+
+                <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-xl glass-card text-gray-300 hover:text-xcyan hover:border-xcyan/40 transition-all">
+                    <i class="fa-solid fa-calendar-check text-lg"></i>
+                    <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-xcyan text-black text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-xblack">0</span>
+                </button>
+
+                <button onclick="openTestDriveModal()" class="hidden sm:flex items-center gap-2 bg-gradient-to-r from-xcyan via-xblue to-xpurple text-black font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl hover:shadow-glow hover:scale-105 transition-all">
+                    <i class="fa-solid fa-key"></i>
+                    <span>حجز قيادة</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION WITH CAROUSEL & PERFORMANCE METRICS -->
+    <section id="hero" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Content -->
+                <div class="lg:col-span-5 space-y-8 text-center lg:text-right">
+                    <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full glass border-xcyan/30 text-xcyan text-xs font-semibold">
+                        <span class="w-2.5 h-2.5 rounded-full bg-xcyan animate-ping"></span>
+                        <span class="font-tech uppercase tracking-wider">Flagship Series X10 Cyber Spec</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl font-black leading-tight tracking-tight">
+                        قمة الهيمنة <br>
+                        <span class="bg-gradient-to-r from-xcyan via-white to-xgold bg-clip-text text-transparent">
+                            الذكية والأداء
+                        </span>
+                    </h1>
+
+                    <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                        نقدم لك الجيل الجديد من السيارات الكهربائية الخارقة والهجينة المصممة لتعيد رسم معايير الفخامة العالمية بمحركات Quad-Motor وقدرات قيادة ذاتية فائق بالذكاء الاصطناعي.
+                    </p>
+
+                    <!-- Real-time Specs Bar -->
+                    <div class="grid grid-cols-3 gap-3 glass-card p-4 rounded-2xl border-xborder text-center">
+                        <div>
+                            <div class="text-[10px] text-gray-400 uppercase font-semibold">التسارع (0-100)</div>
+                            <div class="text-lg sm:text-xl font-black text-xcyan font-tech">1.98s</div>
+                        </div>
+                        <div class="border-x border-xborder">
+                            <div class="text-[10px] text-gray-400 uppercase font-semibold">القوة القصوى</div>
+                            <div class="text-lg sm:text-xl font-black text-white font-tech">1,420 HP</div>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-gray-400 uppercase font-semibold">المدى الشامل</div>
+                            <div class="text-lg sm:text-xl font-black text-xgold font-tech">820 كم</div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                        <button onclick="scrollToSection('configurator')" class="bg-gradient-to-r from-xcyan to-xblue text-black font-extrabold text-sm px-8 py-4 rounded-xl shadow-glow hover:scale-105 transition-all flex items-center gap-3">
+                            <span>صمم سيارتك بنفسك (3D Builder)</span>
+                            <i class="fa-solid fa-sliders"></i>
+                        </button>
+                        <button onclick="openCarModal(1)" class="glass text-white hover:text-xcyan font-semibold text-sm px-7 py-4 rounded-xl hover:border-xcyan/40 transition-all">
+                            تفاصيل الموديل Flagship
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hero Interactive Display Showcase -->
+                <div class="lg:col-span-7 relative flex justify-center items-center">
+                    <div class="relative w-full max-w-2xl">
+                        <!-- Neon Glow Circle -->
+                        <div id="heroGlow" class="absolute inset-0 bg-gradient-to-r from-xcyan/30 via-xpurple/20 to-xgold/30 rounded-full filter blur-3xl transform scale-95"></div>
+                        
+                        <!-- Hero Car Main Dynamic Image -->
+                        <img id="heroCarImage" src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80" alt="XPROLE Series X10" class="relative z-10 w-full h-auto object-contain car-transition drop-shadow-[0_25px_60px_rgba(0,240,255,0.25)]">
+
+                        <!-- Badge Overlay -->
+                        <div class="absolute top-2 right-2 z-20 glass p-3 rounded-2xl hidden sm:flex items-center gap-3 border-xcyan/40">
+                            <i class="fa-solid fa-certificate text-xgold text-2xl"></i>
+                            <div>
+                                <div class="text-[10px] text-gray-400">جائزة التصميم العالمي</div>
+                                <div class="text-xs font-bold text-white">Hyper Luxury Vehicle 2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. LINEUP SERIES & MODEL SHOWROOM -->
+    <section id="lineup" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-xcyan text-xs font-bold uppercase tracking-widest block mb-1">XPROLE Global Portfolio</span>
+                    <h2 class="text-3xl sm:text-4xl font-black">أسطول السلاسل والموديلات</h2>
+                </div>
+                
+                <!-- Series Tabs -->
+                <div class="flex flex-wrap items-center gap-2 bg-xdark/90 p-1.5 rounded-2xl border border-xborder">
+                    <button onclick="filterCars('all')" class="series-btn active-series px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-xcyan to-xblue text-black shadow-glow" data-series="all">
+                        جميع السلاسل
+                    </button>
+                    <button onclick="filterCars('Series X')" class="series-btn px-5 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all" data-series="Series X">
+                        Series X (الكهربائية الخارقة)
+                    </button>
+                    <button onclick="filterCars('Series S')" class="series-btn px-5 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all" data-series="Series S">
+                        Series S (الصالون الفاخرة)
+                    </button>
+                    <button onclick="filterCars('Series V')" class="series-btn px-5 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all" data-series="Series V">
+                        Series V (الـ SUV الذكية)
+                    </button>
+                </div>
+            </div>
+
+            <!-- CAR CARDS GRID -->
+            <div id="carsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamically Rendered Cars -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ADVANCED 3D CONFIGURATOR ENGINE -->
+    <section id="configurator" class="py-20 glass relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xcyan text-xs font-bold uppercase tracking-widest block mb-2 font-tech">Customization Studio</span>
+                <h2 class="text-3xl sm:text-4xl font-black">مُستكشف وتخصيص السيارة (Configurator 3D)</h2>
+                <p class="text-gray-400 text-xs sm:text-sm mt-2">اختر موديلك المفضّل، قم بتخصيص طلاء الهيكل، المقاس والجنوط، وتنجيد المقاعد مع التحديث الفوري للتكلفة.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-center bg-xdark/80 p-6 md:p-10 rounded-3xl border border-xborder shadow-2xl">
+                
+                <!-- Display Canvas View -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="relative h-80 sm:h-96 rounded-2xl overflow-hidden glass-card border border-xcyan/30 flex items-center justify-center p-4">
+                        <div id="configGlow" class="absolute inset-0 bg-xcyan/10 rounded-full blur-2xl"></div>
+                        <img id="configCarImg" src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1000&q=80" class="relative z-10 w-full h-auto object-contain car-transition">
+                        
+                        <div class="absolute bottom-4 right-4 bg-black/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-xborder text-xs flex items-center gap-3">
+                            <div>
+                                <span class="text-gray-400 block text-[10px]">السعر الإجمالي بعد التعديلات:</span>
+                                <span id="configTotalPrice" class="text-xcyan font-black text-base font-tech">$135,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customization Options Controls -->
+                <div class="lg:col-span-5 space-y-6">
+                    
+                    <!-- 1. Model Select -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-2">اختر الموديل الأساسي:</label>
+                        <select id="configCarSelect" onchange="updateConfigurator()" class="w-full bg-xcard border border-xborder rounded-xl p-3 text-sm text-white focus:border-xcyan focus:outline-none">
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+
+                    <!-- 2. Paint Finish Color -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-2">طلاء الهيكل الخارجي (Exterior Finish):</label>
+                        <div class="flex items-center gap-3">
+                            <button onclick="setConfigColor('#00f0ff', 0, 'Cyber Cyan Metallic')" class="w-9 h-9 rounded-full bg-cyan-400 border-2 border-white ring-2 ring-xcyan/50 hover:scale-110 transition-transform" title="Cyber Cyan"></button>
+                            <button onclick="setConfigColor('#e63946', 90, 'Crimson Red Performance')" class="w-9 h-9 rounded-full bg-rose-600 border-2 border-transparent hover:border-white hover:scale-110 transition-transform" title="Crimson Red"></button>
+                            <button onclick="setConfigColor('#d4af37', 45, 'Royal Gold Pearl (+$3,500)')" class="w-9 h-9 rounded-full bg-amber-400 border-2 border-transparent hover:border-white hover:scale-110 transition-transform" title="Royal Gold"></button>
+                            <button onclick="setConfigColor('#7b2cbf', 250, 'Midnight Purple (+$4,000)')" class="w-9 h-9 rounded-full bg-purple-600 border-2 border-transparent hover:border-white hover:scale-110 transition-transform" title="Midnight Purple"></button>
+                            <button onclick="setConfigColor('#111827', 0, 'Stealth Obsidian Black')" class="w-9 h-9 rounded-full bg-gray-900 border-2 border-transparent hover:border-white hover:scale-110 transition-transform" title="Obsidian Black"></button>
+                        </div>
+                        <span id="colorNameLabel" class="text-[11px] text-xcyan font-semibold block mt-1">Cyber Cyan Metallic</span>
+                    </div>
+
+                    <!-- 3. Rims / Wheel Style -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-2">نوع وحجم الجنوط (Wheel Package):</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setConfigRim('standard', 0)" id="rim-standard" class="rim-btn p-3 rounded-xl border border-xcyan bg-xcyan/10 text-xs font-bold text-white text-right">
+                                <div>20" Aero Turbine</div>
+                                <span class="text-[10px] text-gray-400">أساسي</span>
+                            </button>
+                            <button onclick="setConfigRim('performance', 4500)" id="rim-performance" class="rim-btn p-3 rounded-xl border border-xborder glass text-xs font-bold text-white text-right hover:border-xcyan">
+                                <div>22" Carbon Forged</div>
+                                <span class="text-[10px] text-xcyan">+$4,500</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4. Interior Upholstery -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-2">تنجيد المقصورة الداخلية (Interior Leather):</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setConfigInterior('black', 0)" id="int-black" class="int-btn p-3 rounded-xl border border-xcyan bg-xcyan/10 text-xs font-bold text-white text-right">
+                                Nappa Black & Alcantara
+                            </button>
+                            <button onclick="setConfigInterior('white', 2500)" id="int-white" class="int-btn p-3 rounded-xl border border-xborder glass text-xs font-bold text-white text-right hover:border-xcyan">
+                                Pure Crystal White (+$2,500)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <button onclick="saveConfiguration()" class="w-full bg-gradient-to-r from-xcyan via-xblue to-xpurple text-black font-extrabold text-xs py-4 rounded-xl shadow-glow hover:scale-[1.02] transition-all">
+                        حفظ النسخة والتأكيد في حجزك
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. FINANCIAL BUILDER & CALCULATOR -->
+    <section id="finance" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-xcyan text-xs font-bold uppercase tracking-widest block font-tech">XPROLE Financial Services</span>
+                    <h2 class="text-3xl sm:text-4xl font-black leading-tight">مركز حلول التمويل والامتلاك الشامل</h2>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                        اختر طريقة الشراء المناسبة لك (نقدية، تمويل أقساط، أو عقد إيجار تمويلي حقيقي) مع شفافية كاملة لحساب نسب الفائدة والمبالغ المتبقية.
+                    </p>
+
+                    <!-- Payment Method Mode Toggle -->
+                    <div class="flex p-1 bg-xdark rounded-xl border border-xborder">
+                        <button onclick="setFinanceType('cash')" id="btn-finance-cash" class="flex-1 py-2 rounded-lg text-xs font-bold bg-xcyan text-black">نقدي (Cash)</button>
+                        <button onclick="setFinanceType('finance')" id="btn-finance-loan" class="flex-1 py-2 rounded-lg text-xs font-bold text-gray-400 hover:text-white">تمويل (Loan)</button>
+                        <button onclick="setFinanceType('lease')" id="btn-finance-lease" class="flex-1 py-2 rounded-lg text-xs font-bold text-gray-400 hover:text-white">إيجار (Lease)</button>
+                    </div>
+
+                    <div class="glass-card p-5 rounded-2xl border-xborder space-y-3">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-file-contract text-xgold text-xl"></i>
+                            <div>
+                                <h4 class="font-bold text-xs">ضمان القيمة المستردة 65%</h4>
+                                <p class="text-[11px] text-gray-400">إمكانية استبدال موديلك بموديل أحدث سنوياً بعقد مرن.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculator Interactive Form Card -->
+                <div class="lg:col-span-7 glass-card p-8 rounded-3xl border-xcyan/20 shadow-2xl relative">
+                    <div class="space-y-6">
+                        
+                        <!-- Select Car -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-2">اختر السيارة المُراد حساب تمويلها:</label>
+                            <select id="financeCarSelect" onchange="calculateFullFinance()" class="w-full bg-xdark border border-xborder rounded-xl p-3.5 text-sm text-white focus:border-xcyan focus:outline-none">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+
+                        <div id="financeLoanOptions" class="space-y-5">
+                            <!-- Down Payment Slider -->
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-2">
+                                    <span class="text-gray-300">الدفعة الأولى ($):</span>
+                                    <span id="downPaymentVal" class="text-xcyan font-extrabold text-sm font-tech">$30,000</span>
+                                </div>
+                                <input type="range" id="downPaymentRange" min="10000" max="100000" step="5000" value="30000" oninput="calculateFullFinance()" class="w-full accent-xcyan bg-xdark h-2 rounded-lg cursor-pointer">
+                            </div>
+
+                            <!-- Duration Slider -->
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-2">
+                                    <span class="text-gray-300">مدة التمويل (بالأشهر):</span>
+                                    <span id="monthsVal" class="text-xcyan font-extrabold text-sm font-tech">36 شهر</span>
+                                </div>
+                                <input type="range" id="monthsRange" min="12" max="60" step="12" value="36" oninput="calculateFullFinance()" class="w-full accent-xcyan bg-xdark h-2 rounded-lg cursor-pointer">
+                            </div>
+                        </div>
+
+                        <!-- Finance Summary Box -->
+                        <div class="bg-gradient-to-r from-xdark to-xcard p-6 rounded-2xl border border-xborder space-y-4">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                                <div>
+                                    <div class="text-xs text-gray-400">القسط الشهري المقدر:</div>
+                                    <div id="monthlyFinanceResult" class="text-3xl font-black text-xcyan font-tech">$2,450 <span class="text-xs text-gray-400 font-normal">/ شهر</span></div>
+                                </div>
+                                <div class="text-left">
+                                    <div class="text-[10px] text-gray-500">الفائدة السنوية المعتمدة</div>
+                                    <div class="text-xs font-bold text-xgold font-tech">3.2% APR Fixed</div>
+                                </div>
+                            </div>
+
+                            <button onclick="triggerToast('تم تسجيل الطلب', 'تمت إضافة خطة التمويل لتقرير الحجز الخاص بك')" class="w-full bg-gradient-to-r from-xcyan to-xblue text-black font-extrabold text-xs py-3.5 rounded-xl hover:shadow-glow hover:scale-[1.01] transition-all">
+                                اعتماد هذه الخطة وتثبيتها
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. SMART CAR OS & CONNECTIVITY SIMULATOR -->
+    <section id="smart-os" class="py-20 glass relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Phone Mockup Simulator -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="w-80 h-[580px] glass border-2 border-xcyan/40 rounded-[45px] p-5 relative shadow-glow shadow-xcyan/20 flex flex-col justify-between overflow-hidden">
+                        
+                        <!-- Notch -->
+                        <div class="w-36 h-5 bg-black rounded-b-2xl mx-auto mb-3 border-b border-xborder"></div>
+
+                        <div class="space-y-4 flex-1">
+                            <div class="flex items-center justify-between border-b border-xborder pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
+                                    <span class="text-xs font-bold text-xcyan font-tech">XPROLE OS v5.0 Live</span>
+                                </div>
+                                <i class="fa-solid fa-wifi text-xs text-gray-400"></i>
+                            </div>
+
+                            <!-- Live Car Status -->
+                            <div class="text-center py-2">
+                                <i id="appCarIcon" class="fa-solid fa-car text-5xl text-white my-2 transition-all drop-shadow-[0_0_15px_rgba(0,240,255,0.6)]"></i>
+                                <div class="text-2xl font-black text-white font-tech" id="appBatteryVal">92%</div>
+                                <div class="text-[10px] text-gray-400">المدى المتبقي: <span class="text-xcyan font-bold">710 كم</span></div>
+                            </div>
+
+                            <!-- Controls -->
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="toggleAppLock()" id="appLockBtn" class="p-3 glass-card rounded-xl text-center hover:border-xcyan transition-all">
+                                    <i id="appLockIcon" class="fa-solid fa-lock text-xcyan text-sm block mb-1"></i>
+                                    <span id="appLockText" class="text-[10px] font-bold">الأبواب مقفلة</span>
+                                </button>
+                                <button onclick="toggleAppAC()" id="appAcBtn" class="p-3 glass-card rounded-xl text-center hover:border-xcyan transition-all">
+                                    <i id="appAcIcon" class="fa-solid fa-snowflake text-xblue text-sm block mb-1"></i>
+                                    <span id="appAcText" class="text-[10px] font-bold">التكييف: 21°C</span>
+                                </button>
+                            </div>
+
+                            <!-- Sound Simulator Engine Sound -->
+                            <button onclick="playEngineSound()" class="w-full p-3 glass-card rounded-xl flex items-center justify-center gap-2 text-xs font-bold text-xgold border-xgold/30 hover:border-xgold transition-all">
+                                <i class="fa-solid fa-volume-high"></i>
+                                <span>تجربة صوت المحرك الافتراضي (Web Audio)</span>
+                            </button>
+                        </div>
+
+                        <div class="text-center text-[10px] text-gray-500 border-t border-xborder pt-2">
+                            XPROLE Telematics Cloud Server Connected
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 space-y-6">
+                    <span class="text-xcyan text-xs font-bold uppercase tracking-widest block font-tech">AI Autopilot & Telematics</span>
+                    <h2 class="text-3xl sm:text-4xl font-black leading-tight">النظام التشغيلي الأكثر تطوراً في العالم</h2>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                        يربط نظام XPROLE OS بين مستشعرات السيارة السحابية وهاتفك لتوفير قدرات التتبع، التشغيل مسبق التحكم، واستجابة الصيانة الذاتية.
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="glass-card p-4 rounded-2xl border-xborder space-y-2">
+                            <i class="fa-solid fa-brain text-xcyan text-xl"></i>
+                            <h4 class="font-bold text-xs text-white">القيادة الذاتية Autopilot Level 4</h4>
+                            <p class="text-[11px] text-gray-400">توجيه تلقائي على الطرق السريعة وتجاوز الازدحامات بذكاء الاصطناعي.</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-2xl border-xborder space-y-2">
+                            <i class="fa-solid fa-shield-virus text-xpurple text-xl"></i>
+                            <h4 class="font-bold text-xs text-white">نظام الحماية Sentry Guardian</h4>
+                            <p class="text-[11px] text-gray-400">بث حي للكاميرات المحيطة 360 درجة وتنبيه الفوري عند التعدي.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. COMPARE MODELS MODAL -->
+    <div id="compareModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass border-xcyan/30 rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl">
+            <button onclick="closeCompareModal()" class="absolute top-6 left-6 w-10 h-10 rounded-full glass-card hover:bg-rose-600 hover:text-white flex items-center justify-center text-gray-400 transition-all z-10">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <h3 class="text-2xl font-black text-white mb-6">مقارنة الموديلات والمواصفات</h3>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Select Car 1 -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-2">السيارة الأولى:</label>
+                    <select id="compareCarSelect1" onchange="updateCompareView()" class="w-full bg-xdark border border-xborder rounded-xl p-3 text-xs text-white">
+                        <!-- Populated JS -->
+                    </select>
+                </div>
+                <!-- Select Car 2 -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-2">السيارة الثانية:</label>
+                    <select id="compareCarSelect2" onchange="updateCompareView()" class="w-full bg-xdark border border-xborder rounded-xl p-3 text-xs text-white">
+                        <!-- Populated JS -->
+                    </select>
+                </div>
+            </div>
+
+            <!-- Comparison Table Render -->
+            <div id="compareTableContainer" class="mt-8 overflow-x-auto">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. CAR DETAILS MODAL -->
+    <div id="carModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass border-xcyan/30 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl">
+            <button onclick="closeCarModal()" class="absolute top-6 left-6 w-10 h-10 rounded-full glass-card hover:bg-rose-600 hover:text-white flex items-center justify-center text-gray-400 transition-all z-10">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div id="modalContent">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. TEST DRIVE & BOOKING MODAL -->
+    <div id="testDriveModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass border-xcyan/30 rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl">
+            <button onclick="closeTestDriveModal()" class="absolute top-6 left-6 w-10 h-10 rounded-full glass-card hover:bg-rose-600 hover:text-white flex items-center justify-center text-gray-400 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <h3 class="text-xl font-black text-white mb-2">حجز موعد قيادة تجريبية رسمي</h3>
+            <p class="text-xs text-gray-400 mb-6">قم بتعبئة بياناتك ليقوم ممثل مبيعات XPROLE بتأكيد التجربة.</p>
+
+            <form onsubmit="submitTestDrive(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">الاسم الكامل:</label>
+                    <input type="text" required placeholder="مثال: محمد أحمد" class="w-full bg-xdark border border-xborder rounded-xl p-3 text-xs text-white focus:border-xcyan">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">رقم الهاتف:</label>
+                    <input type="tel" required placeholder="+966 5x xxx xxxx" class="w-full bg-xdark border border-xborder rounded-xl p-3 text-xs text-white focus:border-xcyan">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">المعرض المفضل:</label>
+                    <select class="w-full bg-xdark border border-xborder rounded-xl p-3 text-xs text-white">
+                        <option>معرض الرياض الرئيسية - طريق الملك فهد</option>
+                        <option>معرض دبي المالي - دبي مول</option>
+                        <option>معرض جدة الكورنيش</option>
+                        <option>معرض أبوظبي الجزيرة</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">تاريخ التجربة:</label>
+                    <input type="date" required class="w-full bg-xdark border border-xborder rounded-xl p-3 text-xs text-white focus:border-xcyan">
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-xcyan via-xblue to-xpurple text-black font-extrabold text-xs py-3.5 rounded-xl shadow-glow">
+                    تأكيد حجز الموعد واستخراج الكود
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 10. DRAWERS (CART & FAV) -->
+    <div id="cartDrawer" class="fixed top-0 left-0 h-full w-full sm:w-96 glass border-r border-xborder z-50 transform -translate-x-full transition-transform duration-300 shadow-2xl flex flex-col justify-between p-6">
+        <div>
+            <div class="flex items-center justify-between pb-6 border-b border-xborder">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check text-xcyan text-xl"></i>
+                    <h3 class="font-bold text-lg text-white">حجوزاتك الرسمية</h3>
+                </div>
+                <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div id="cartItemsContainer" class="py-6 space-y-4 max-h-[60vh] overflow-y-auto">
+                <!-- Dynamic Items -->
+            </div>
+        </div>
+
+        <div class="border-t border-xborder pt-6 space-y-4">
+            <div class="flex justify-between items-center font-bold">
+                <span class="text-gray-400 text-xs">إجمالي العربون المستحق:</span>
+                <span id="cartTotal" class="text-xcyan text-xl font-black font-tech">$0</span>
+            </div>
+            <button onclick="submitBooking()" class="w-full bg-gradient-to-r from-xcyan to-xblue text-black font-extrabold py-3.5 rounded-xl shadow-glow hover:scale-[1.02] transition-all text-xs">
+                إرسال الطلب النهائي للمبيعات
+            </button>
+        </div>
+    </div>
+
+    <div id="favDrawer" class="fixed top-0 left-0 h-full w-full sm:w-96 glass border-r border-xborder z-50 transform -translate-x-full transition-transform duration-300 shadow-2xl flex flex-col justify-between p-6">
+        <div>
+            <div class="flex items-center justify-between pb-6 border-b border-xborder">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-heart text-xpurple text-xl"></i>
+                    <h3 class="font-bold text-lg text-white">قائمة المفضلة</h3>
+                </div>
+                <button onclick="toggleFavDrawer()" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div id="favItemsContainer" class="py-6 space-y-4 max-h-[70vh] overflow-y-auto">
+                <!-- Dynamic Items -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-xborder glass pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-9 h-9 rounded-xl bg-xcyan text-black font-black flex items-center justify-center font-tech">X</div>
+                        <span class="text-xl font-black tracking-widest text-white font-tech">XPROLE</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        مجموعة XPROLE العالمية لصناعة وتطوير السيارات الذكية والخارقة بتقنيات الذكاء الاصطناعي المتقدم.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-widest mb-4">السلاسل الفاخرة</h4>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li><a href="#lineup" class="hover:text-xcyan">Series X (الكهربائية الخارقة)</a></li>
+                        <li><a href="#lineup" class="hover:text-xcyan">Series S (الصالون الفاخرة)</a></li>
+                        <li><a href="#lineup" class="hover:text-xcyan">Series V (الـ SUV المستقبلية)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-widest mb-4">خدمات العملاء</h4>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li><a href="#finance" class="hover:text-xcyan">حلول التمويل والعقود</a></li>
+                        <li><a href="#configurator" class="hover:text-xcyan">مستكشف التخصيص الـ 3D</a></li>
+                        <li><a href="#smart-os" class="hover:text-xcyan">تحديثات XPROLE OS</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-widest mb-4">النشرة الرسمية</h4>
+                    <p class="text-xs text-gray-400 mb-3">اشترك لتصلك الدعوات الحصرية لإطلاق الموديلات.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="بريدك الإلكتروني" class="bg-xdark border border-xborder rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-xcyan w-full">
+                        <button onclick="triggerToast('تم الاشتراك', 'شكراً لاشتراكك في قائمة XPROLE الحصرية')" class="bg-xcyan text-black font-bold text-xs px-4 rounded-xl hover:bg-xblue transition-colors">إرسال</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-xborder pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                <p>جميع الحقوق محفوظة &copy; 2026 - مجموعة XPROLE Automotive Group العالمية.</p>
+                <div class="flex gap-4 text-sm">
+                    <a href="#" class="hover:text-xcyan"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="hover:text-xcyan"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-xcyan"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="hover:text-xcyan"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT STATE ENGINE -->
+    <script>
+        // FULL EXTENDED CAR DATASET
+        const carsData = [
+            {
+                id: 1,
+                name: "XPROLE Series X10 Cyber Spec",
+                series: "Series X",
+                trim: "Cyber Spec (Top Tier)",
+                price: 135000,
+                bookingFee: 2500,
+                acceleration: "1.98 ثانية",
+                power: "1,420 HP",
+                engine: "Quad-Motor All-Electric AWD",
+                topSpeed: "355 كم/س",
+                range: "820 كم",
+                seats: 4,
+                image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1000&q=80",
+                angles: [
+                    "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80"
+                ],
+                desc: "الموديل القيادي الأقوى على الإطلاق مع أبواب أجنحة النورس المصنوعة من ألياف الكربون ونظام التعليق المغناطيسي."
+            },
+            {
+                id: 2,
+                name: "XPROLE Series S8 Gran Coupe",
+                series: "Series S",
+                trim: "Performance Edition",
+                price: 108000,
+                bookingFee: 2000,
+                acceleration: "3.2 ثانية",
+                power: "680 HP",
+                engine: "V8 Twin-Turbo Mild-Hybrid",
+                topSpeed: "310 كم/س",
+                range: "740 كم",
+                seats: 5,
+                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80",
+                angles: [
+                    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1000&q=80"
+                ],
+                desc: "الصالون الفاخرة الرياضية المصممة لرجال الأعمال الراغبين بالأداء النقي ونظام الصوت السيمفوني الحصري."
+            },
+            {
+                id: 3,
+                name: "XPROLE Series V9 Terra SUV",
+                series: "Series V",
+                trim: "Luxury Ultra",
+                price: 122000,
+                bookingFee: 2200,
+                acceleration: "3.8 ثانية",
+                power: "750 HP",
+                engine: "Dual-Motor Electric AWD",
+                topSpeed: "280 كم/س",
+                range: "780 كم",
+                seats: 7,
+                image: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1000&q=80",
+                angles: [
+                    "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1000&q=80",
+                    "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80"
+                ],
+                desc: "الـ SUV الكبيرة الفاخرة 7 مقاعد مع نظام عزل الصوت السلبي ومقاعد مساج الكريستال."
+            },
+            {
+                id: 4,
+                name: "XPROLE Series S6 Sport Sedan",
+                series: "Series S",
+                trim: "Sport Package",
+                price: 89000,
+                bookingFee: 1800,
+                acceleration: "3.9 ثانية",
+                power: "520 HP",
+                engine: "Inline-6 Turbo Electric Boost",
+                topSpeed: "290 كم/س",
+                range: "800 كم",
+                seats: 5,
+                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80",
+                angles: [
+                    "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80"
+                ],
+                desc: "سيدان الأداء اليومي المزودة بشاشة العرض السقفية والتوجيه الخلفي النشط."
+            },
+            {
+                id: 5,
+                name: "XPROLE Series X8 Hyper Roadster",
+                series: "Series X",
+                trim: "Performance Spec",
+                price: 155000,
+                bookingFee: 3000,
+                acceleration: "2.1 ثانية",
+                power: "1,250 HP",
+                engine: "Tri-Motor Electric Track AWD",
+                topSpeed: "345 كم/س",
+                range: "690 كم",
+                seats: 2,
+                image: "https://images.unsplash.com/photo-1541348263662-e082662dc324?auto=format&fit=crop&w=1000&q=80",
+                angles: [
+                    "https://images.unsplash.com/photo-1541348263662-e082662dc324?auto=format&fit=crop&w=1000&q=80"
+                ],
+                desc: "الرودستر الرياضية ذات السقف المكشوف القابل للطي بخمس ثوانٍ مع الهيكل الكربوني الحصري."
+            },
+            {
+                id: 6,
+                name: "XPROLE Series V7 Stealth Coupe",
+                series: "Series V",
+                trim: "Stealth Spec",
+                price: 118000,
+                bookingFee: 2100,
+                acceleration: "4.0 ثانية",
+                power: "620 HP",
+                engine: "Plug-in Hybrid V6 Turbo",
+                topSpeed: "275 كم/س",
+                range: "850 كم",
+                seats: 5,
+                image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1000&q=80",
+                angles: [
+                    "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1000&q=80"
+                ],
+                desc: "تصميم الهجومية المظلمة مع طلاء المات الأسود والتحكم التكيّفي بالدفع الرباعي."
+            }
+        ];
+
+        // GLOBAL APP STATE
+        let cartState = [];
+        let favState = [];
+        let configState = {
+            carId: 1,
+            colorHex: '#00f0ff',
+            colorName: 'Cyber Cyan Metallic',
+            filterHue: 0,
+            rimPrice: 0,
+            interiorPrice: 0
+        };
+        let appState = {
+            isLocked: true,
+            isAcOn: true,
+            acTemp: 21
+        };
+
+        // 1. RENDER CAR CARDS & SHOWROOM
+        function renderCars(seriesFilter = 'all', searchQuery = '') {
+            const grid = document.getElementById('carsGrid');
+            grid.innerHTML = '';
+
+            const filtered = carsData.filter(car => {
+                const matchesSeries = seriesFilter === 'all' || car.series === seriesFilter;
+                const matchesSearch = car.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      car.engine.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesSeries && matchesSearch;
+            });
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16 text-gray-400">
+                        <i class="fa-solid fa-car-burst text-5xl mb-4 text-xcyan"></i>
+                        <p class="text-sm">لم يتم العثور على موديلات تطابق نطاق البحث.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(car => {
+                const isFav = favState.includes(car.id);
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-3xl overflow-hidden border border-xborder hover:border-xcyan/40 transition-all duration-300 hover:-translate-y-2 group flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div>
+                        <!-- Card Image -->
+                        <div class="relative h-60 overflow-hidden bg-xdark">
+                            <img src="${car.image}" alt="${car.name}" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500">
+                            
+                            <div class="absolute top-4 right-4 flex gap-2">
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold font-tech glass text-xcyan border-xcyan/30">
+                                    ${car.series}
+                                </span>
+                            </div>
+
+                            <button onclick="toggleFav(${car.id})" class="absolute top-4 left-4 w-9 h-9 rounded-full glass flex items-center justify-center ${isFav ? 'text-xpurple' : 'text-gray-400'} hover:text-xpurple transition-colors">
+                                <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart text-sm"></i>
+                            </button>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="p-6">
+                            <div class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">${car.trim}</div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-bold text-white group-hover:text-xcyan transition-colors">${car.name}</h3>
+                            </div>
+                            <div class="text-xl font-black text-xcyan font-tech mb-4">$${car.price.toLocaleString()}</div>
+
+                            <!-- Specs -->
+                            <div class="grid grid-cols-3 gap-2 py-3 border-y border-xborder text-center text-xs">
+                                <div>
+                                    <div class="text-[9px] text-gray-500">0-100 كم/س</div>
+                                    <div class="font-bold text-white font-tech">${car.acceleration}</div>
+                                </div>
+                                <div class="border-x border-xborder">
+                                    <div class="text-[9px] text-gray-500">القوة</div>
+                                    <div class="font-bold text-white font-tech">${car.power}</div>
+                                </div>
+                                <div>
+                                    <div class="text-[9px] text-gray-500">السرعة القصوى</div>
+                                    <div class="font-bold text-white font-tech">${car.topSpeed}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="p-6 pt-0 flex gap-2">
+                        <button onclick="openCarModal(${car.id})" class="flex-1 glass text-white hover:text-xcyan font-bold text-xs py-3 rounded-xl border border-xborder hover:border-xcyan/40 transition-all text-center">
+                            التفاصيل
+                        </button>
+                        <button onclick="loadConfiguratorCar(${car.id})" class="glass text-xcyan hover:bg-xcyan hover:text-black font-bold text-xs px-3 py-3 rounded-xl border border-xcyan/30 transition-all" title="تخصيص في المستكشف">
+                            <i class="fa-solid fa-sliders"></i>
+                        </button>
+                        <button onclick="addToCart(${car.id})" class="bg-gradient-to-r from-xcyan to-xblue text-black font-extrabold text-xs px-4 py-3 rounded-xl hover:shadow-glow hover:scale-105 transition-all flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCars(series) {
+            document.querySelectorAll('.series-btn').forEach(btn => {
+                if(btn.dataset.series === series) {
+                    btn.className = "series-btn active-series px-5 py-2.5 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-xcyan to-xblue text-black shadow-glow";
+                } else {
+                    btn.className = "series-btn px-5 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all";
+                }
+            });
+            renderCars(series, document.getElementById('searchInput').value);
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value;
+            const activeBtn = document.querySelector('.series-btn.active-series');
+            const activeSeries = activeBtn ? activeBtn.dataset.series : 'all';
+            renderCars(activeSeries, query);
+        }
+
+        // 2. CONFIGURATOR ENGINE LOGIC
+        function initConfiguratorSelect() {
+            const select = document.getElementById('configCarSelect');
+            select.innerHTML = '';
+            carsData.forEach(car => {
+                const opt = document.createElement('option');
+                opt.value = car.id;
+                opt.innerText = `${car.name} ($${car.price.toLocaleString()})`;
+                select.appendChild(opt);
+            });
+            updateConfigurator();
+        }
+
+        function loadConfiguratorCar(carId) {
+            document.getElementById('configCarSelect').value = carId;
+            updateConfigurator();
+            scrollToSection('configurator');
+        }
+
+        function updateConfigurator() {
+            const carId = parseInt(document.getElementById('configCarSelect').value);
+            const car = carsData.find(c => c.id === carId);
+            if(!car) return;
+
+            configState.carId = carId;
+            document.getElementById('configCarImg').src = car.image;
+
+            const total = car.price + configState.rimPrice + configState.interiorPrice;
+            document.getElementById('configTotalPrice').innerText = `$${total.toLocaleString()}`;
+        }
+
+        function setConfigColor(hex, filterHue, name) {
+            configState.colorHex = hex;
+            configState.colorName = name;
+            configState.filterHue = filterHue;
+
+            const img = document.getElementById('configCarImg');
+            img.style.filter = filterHue > 0 ? `hue-rotate(${filterHue}deg)` : 'none';
+            document.getElementById('colorNameLabel').innerText = name;
+            document.getElementById('configGlow').style.background = hex;
+        }
+
+        function setConfigRim(type, price) {
+            configState.rimPrice = price;
+            document.querySelectorAll('.rim-btn').forEach(btn => {
+                btn.classList.remove('border-xcyan', 'bg-xcyan/10');
+                btn.classList.add('border-xborder', 'glass');
+            });
+            const activeBtn = document.getElementById(`rim-${type}`);
+            activeBtn.classList.remove('border-xborder', 'glass');
+            activeBtn.classList.add('border-xcyan', 'bg-xcyan/10');
+            updateConfigurator();
+        }
+
+        function setConfigInterior(type, price) {
+            configState.interiorPrice = price;
+            document.querySelectorAll('.int-btn').forEach(btn => {
+                btn.classList.remove('border-xcyan', 'bg-xcyan/10');
+                btn.classList.add('border-xborder', 'glass');
+            });
+            const activeBtn = document.getElementById(`int-${type}`);
+            activeBtn.classList.remove('border-xborder', 'glass');
+            activeBtn.classList.add('border-xcyan', 'bg-xcyan/10');
+            updateConfigurator();
+        }
+
+        function saveConfiguration() {
+            const car = carsData.find(c => c.id === configState.carId);
+            addToCart(car.id);
+            triggerToast('تأكيد التخصيص', `تم تثبيت مواصفات ${car.name} في حجزك`);
+        }
+
+        // 3. FINANCIAL CALCULATOR ENGINE
+        function initFinanceSelect() {
+            const select = document.getElementById('financeCarSelect');
+            select.innerHTML = '';
+            carsData.forEach(car => {
+                const opt = document.createElement('option');
+                opt.value = car.price;
+                opt.innerText = `${car.name} - ($${car.price.toLocaleString()})`;
+                select.appendChild(opt);
+            });
+            calculateFullFinance();
+        }
+
+        let financeType = 'finance';
+
+        function setFinanceType(type) {
+            financeType = type;
+            const btnCash = document.getElementById('btn-finance-cash');
+            const btnLoan = document.getElementById('btn-finance-loan');
+            const btnLease = document.getElementById('btn-finance-lease');
+
+            [btnCash, btnLoan, btnLease].forEach(btn => {
+                btn.className = "flex-1 py-2 rounded-lg text-xs font-bold text-gray-400 hover:text-white";
+            });
+
+            if(type === 'cash') {
+                btnCash.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-xcyan text-black";
+                document.getElementById('financeLoanOptions').classList.add('hidden');
+            } else if(type === 'finance') {
+                btnLoan.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-xcyan text-black";
+                document.getElementById('financeLoanOptions').classList.remove('hidden');
+            } else {
+                btnLease.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-xcyan text-black";
+                document.getElementById('financeLoanOptions').classList.remove('hidden');
+            }
+            calculateFullFinance();
+        }
+
+        function calculateFullFinance() {
+            const carPrice = parseFloat(document.getElementById('financeCarSelect').value) || 135000;
+            const downPayment = parseFloat(document.getElementById('downPaymentRange').value);
+            const months = parseInt(document.getElementById('monthsRange').value);
+
+            document.getElementById('downPaymentVal').innerText = `$${downPayment.toLocaleString()}`;
+            document.getElementById('monthsVal').innerText = `${months} شهر`;
+
+            const resDiv = document.getElementById('monthlyFinanceResult');
+
+            if(financeType === 'cash') {
+                resDiv.innerHTML = `$${carPrice.toLocaleString()} <span class="text-xs text-gray-400 font-normal">دفعة واحدة</span>`;
+                return;
+            }
+
+            const loanAmount = Math.max(0, carPrice - downPayment);
+            const annualRate = financeType === 'lease' ? 0.028 : 0.035;
+            const monthlyRate = annualRate / 12;
+
+            const installment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+            resDiv.innerHTML = `$${Math.round(installment).toLocaleString()} <span class="text-xs text-gray-400 font-normal">/ شهر</span>`;
+        }
+
+        // 4. SMART CAR OS SOUND & APP LOGIC
+        function toggleAppLock() {
+            appState.isLocked = !appState.isLocked;
+            const icon = document.getElementById('appLockIcon');
+            const text = document.getElementById('appLockText');
+
+            if(appState.isLocked) {
+                icon.className = "fa-solid fa-lock text-xcyan text-sm block mb-1";
+                text.innerText = "الأبواب مقفلة";
+                triggerToast('XPROLE OS Security', 'تم قفل تجميعة الأبواب والنوافذ');
+            } else {
+                icon.className = "fa-solid fa-lock-open text-rose-500 text-sm block mb-1";
+                text.innerText = "الأبواب مفتوحة";
+                triggerToast('XPROLE OS Security', 'تم فتح قفل الأبواب بالهاتف');
+            }
+        }
+
+        function toggleAppAC() {
+            appState.isAcOn = !appState.isAcOn;
+            const icon = document.getElementById('appAcIcon');
+            const text = document.getElementById('appAcText');
+
+            if(appState.isAcOn) {
+                icon.className = "fa-solid fa-snowflake text-xblue text-sm block mb-1 animate-spin";
+                text.innerText = "التكييف: 21°C";
+                triggerToast('XPROLE Climate OS', 'تفعيل تكييف الهواء التكيّفي');
+            } else {
+                icon.className = "fa-solid fa-power-off text-gray-500 text-sm block mb-1";
+                text.innerText = "التكييف متوقف";
+            }
+        }
+
+        function playEngineSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(60, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(240, ctx.currentTime + 1.2);
+                osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 2.5);
+
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 2.5);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + 2.5);
+
+                triggerToast('XPROLE Acoustic Engine', 'جاري محاكاة صوت تسارع المحرك...');
+            } catch(e) {
+                triggerToast('صوت المحرك', 'متصفحك يحجب التوليد الصوتي الافتراضي');
+            }
+        }
+
+        // 5. COMPARE MODELS ENGINE
+        function initCompareSelects() {
+            const s1 = document.getElementById('compareCarSelect1');
+            const s2 = document.getElementById('compareCarSelect2');
+            s1.innerHTML = ''; s2.innerHTML = '';
+
+            carsData.forEach(car => {
+                s1.innerHTML += `<option value="${car.id}">${car.name}</option>`;
+                s2.innerHTML += `<option value="${car.id}">${car.name}</option>`;
+            });
+
+            s1.value = 1;
+            s2.value = 2;
+            updateCompareView();
+        }
+
+        function updateCompareView() {
+            const id1 = parseInt(document.getElementById('compareCarSelect1').value);
+            const id2 = parseInt(document.getElementById('compareCarSelect2').value);
+
+            const c1 = carsData.find(c => c.id === id1);
+            const c2 = carsData.find(c => c.id === id2);
+            if(!c1 || !c2) return;
+
+            const container = document.getElementById('compareTableContainer');
+            container.innerHTML = `
+                <table class="w-full text-right text-xs">
+                    <thead>
+                        <tr class="border-b border-xborder text-xcyan font-tech text-sm">
+                            <th class="py-3">المواصفة / الموديل</th>
+                            <th class="py-3">${c1.name}</th>
+                            <th class="py-3">${c2.name}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-xborder text-gray-300">
+                        <tr>
+                            <td class="py-3 font-bold text-white">السعر الأساسي</td>
+                            <td class="py-3 font-tech text-xcyan font-bold">$${c1.price.toLocaleString()}</td>
+                            <td class="py-3 font-tech text-xcyan font-bold">$${c2.price.toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-bold text-white">التسارع (0-100 كم/س)</td>
+                            <td class="py-3 font-tech">${c1.acceleration}</td>
+                            <td class="py-3 font-tech">${c2.acceleration}</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-bold text-white">القوة الحصانية</td>
+                            <td class="py-3 font-tech">${c1.power}</td>
+                            <td class="py-3 font-tech">${c2.power}</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-bold text-white">المحرك / منظومة الدفع</td>
+                            <td class="py-3">${c1.engine}</td>
+                            <td class="py-3">${c2.engine}</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-bold text-white">المدى / الشحنة أو الخزان</td>
+                            <td class="py-3 font-tech">${c1.range}</td>
+                            <td class="py-3 font-tech">${c2.range}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function openCompareModal() {
+            const modal = document.getElementById('compareModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            initCompareSelects();
+        }
+
+        function closeCompareModal() {
+            document.getElementById('compareModal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // 6. MODAL & DRAWER SYSTEM
+        function openCarModal(carId) {
+            const car = carsData.find(c => c.id === carId);
+            if(!car) return;
+
+            const modal = document.getElementById('carModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <div class="grid lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="relative h-72 sm:h-96 rounded-2xl overflow-hidden glass-card border border-xborder">
+                            <img id="modalMainImg" src="${car.image}" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-6">
+                        <div>
+                            <span class="text-xcyan text-xs font-bold uppercase tracking-widest block font-tech">${car.series}</span>
+                            <h2 class="text-2xl font-black text-white">${car.name}</h2>
+                            <div class="text-xl font-black text-xcyan font-tech mt-1">$${car.price.toLocaleString()}</div>
+                        </div>
+
+                        <p class="text-xs text-gray-300 leading-relaxed">${car.desc}</p>
+
+                        <div class="space-y-2 glass-card p-4 rounded-2xl border-xborder text-xs">
+                            <div class="flex justify-between py-1 border-b border-xborder"><span class="text-gray-400">التسارع:</span><span class="font-bold text-white font-tech">${car.acceleration}</span></div>
+                            <div class="flex justify-between py-1 border-b border-xborder"><span class="text-gray-400">القوة:</span><span class="font-bold text-white font-tech">${car.power}</span></div>
+                            <div class="flex justify-between py-1"><span class="text-gray-400">المدى:</span><span class="font-bold text-xcyan font-tech">${car.range}</span></div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="addToCart(${car.id}); closeCarModal();" class="flex-1 bg-gradient-to-r from-xcyan to-xblue text-black font-extrabold py-3.5 rounded-xl shadow-glow text-xs">
+                                تثبيت الحجز المبدئي
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeCarModal() {
+            document.getElementById('carModal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function openTestDriveModal() {
+            document.getElementById('testDriveModal').classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeTestDriveModal() {
+            document.getElementById('testDriveModal').classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function submitTestDrive(e) {
+            e.preventDefault();
+            const refCode = "XP-" + Math.floor(100000 + Math.random() * 900000);
+            triggerToast('تأكيد تجربة القيادة', `تم اعتماد الموعد! الرقم المرجعي للطلب: ${refCode}`);
+            closeTestDriveModal();
+        }
+
+        // CART & FAVORITES HANDLERS
+        function addToCart(carId) {
+            const car = carsData.find(c => c.id === carId);
+            if(!car) return;
+
+            if(!cartState.some(item => item.id === carId)) {
+                cartState.push(car);
+                updateCartUI();
+                triggerToast('إضافة حجز', `تمت إضافة ${car.name} لقائمة حجوزاتك`);
+            }
+        }
+
+        function removeFromCart(carId) {
+            cartState = cartState.filter(item => item.id !== carId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cartState.length;
+            const container = document.getElementById('cartItemsContainer');
+            container.innerHTML = '';
+
+            let total = 0;
+
+            if(cartState.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 text-gray-500 text-xs">قائمة الحجوزات فارغة حالياً.</div>`;
+            } else {
+                cartState.forEach(item => {
+                    total += item.bookingFee;
+                    const div = document.createElement('div');
+                    div.className = "flex items-center justify-between p-3 glass-card rounded-2xl border-xborder";
+                    div.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <img src="${item.image}" class="w-14 h-10 object-cover rounded-lg">
+                            <div>
+                                <h4 class="font-bold text-xs text-white">${item.name}</h4>
+                                <div class="text-[10px] text-xcyan font-bold font-tech">عربون: $${item.bookingFee.toLocaleString()}</div>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-rose-500 p-2">
+                            <i class="fa-solid fa-trash text-xs"></i>
+                        </button>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            document.getElementById('cartTotal').innerText = `$${total.toLocaleString()}`;
+        }
+
+        function toggleCartDrawer() {
+            document.getElementById('cartDrawer').classList.toggle('-translate-x-full');
+        }
+
+        function toggleFav(carId) {
+            const idx = favState.indexOf(carId);
+            if(idx === -1) {
+                favState.push(carId);
+                triggerToast('المفضلة', 'تمت إضافة الموديل للمفضلة');
+            } else {
+                favState.splice(idx, 1);
+            }
+            document.getElementById('fav-count').innerText = favState.length;
+            renderCars();
+            updateFavUI();
+        }
+
+        function updateFavUI() {
+            const container = document.getElementById('favItemsContainer');
+            container.innerHTML = '';
+
+            if(favState.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 text-gray-500 text-xs">لا توجد سيارات بالمفضلة.</div>`;
+                return;
+            }
+
+            favState.forEach(id => {
+                const item = carsData.find(c => c.id === id);
+                if(!item) return;
+
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between p-3 glass-card rounded-2xl border-xborder";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${item.image}" class="w-14 h-10 object-cover rounded-lg">
+                        <div>
+                            <h4 class="font-bold text-xs text-white">${item.name}</h4>
+                            <div class="text-[10px] text-gray-400 font-tech">$${item.price.toLocaleString()}</div>
+                        </div>
+                    </div>
+                    <button onclick="toggleFav(${item.id})" class="text-rose-500 p-2">
+                        <i class="fa-solid fa-heart text-xs"></i>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function toggleFavDrawer() {
+            document.getElementById('favDrawer').classList.toggle('-translate-x-full');
+        }
+
+        function submitBooking() {
+            if(cartState.length === 0) {
+                triggerToast('تنبيه', 'قم بإضافة موديل على الأقل للحجز');
+                return;
+            }
+            const orderId = "XPROLE-ORD-" + Math.floor(100000 + Math.random() * 900000);
+            triggerToast('تأكيد الطلب النهائي', `تم إرسال الطلب للمبيعات! رقم الطلب: ${orderId}`);
+            cartState = [];
+            updateCartUI();
+            toggleCartDrawer();
+        }
+
+        // UTILS
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function triggerToast(title, msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-msg').innerText = msg;
+
+            toast.classList.remove('-translate-x-full', 'opacity-0');
+            toast.classList.add('translate-x-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-x-0', 'opacity-100');
+                toast.classList.add('-translate-x-full', 'opacity-0');
+            }, 3500);
+        }
+
+        // INITIALIZATION
+        window.onload = function() {
+            renderCars();
+            initConfiguratorSelect();
+            initFinanceSelect();
+        };
+    </script>
+</body>
+</html>
